@@ -1,0 +1,17 @@
+{
+  "name": "duo-pocket-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Three little tools. One pocket. An offline-first iPhone PWA.",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/serve.mjs dist",
+    "test": "node --test tests/model.test.mjs",
+    "test:e2e": "playwright test",
+    "verify:live": "node scripts/verify-live.mjs"
+  },
+  "engines": { "node": ">=22" },
+  "devDependencies": { "@playwright/test": "1.64.1" }
+}

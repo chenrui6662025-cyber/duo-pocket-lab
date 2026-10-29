@@ -2,6 +2,18 @@
 
 日期：2026-10-29（UTC）。项目目录：`/workspace/duo-pocket-lab`。
 
+## 用户手动创建仓库后的继续检查
+
+- 仓库 `chenrui6662025-cyber/duo-pocket-lab` 已存在且为 Public；初次 fetch 成功，但仓库没有任何 refs，是空仓库。
+- 继续使用原有已测试提交 `63088bdc8b655dc378d732a665342e9f9603ed66`，未重新开发或重复运行已通过的功能测试。
+- GitHub 仓库元数据的 `permissions.push/admin` 为 true；但使用当前集成凭据的实际 `git push -u origin main` 返回 HTTP 403，代码与工作流未推送成功。
+- 当前安装为 `chatgpt-codex-connector`，安装 ID `129148100`，`repository_selection=selected`。其权限包含 Contents、Workflows、Actions 写，但 `GET /user/installations/129148100/repositories` 的目标仓库筛选结果为空，确认新仓库未加入授权范围。
+- 需要在 `https://github.com/settings/installations/129148100` 的 Repository access 中加入 `duo-pocket-lab` 并保存，保留原有选择。不能凭仓库元数据中 push/admin=true 推断集成可以写入。
+- Pages 配置读取返回 404；实际 `POST /repos/chenrui6662025-cyber/duo-pocket-lab/pages`（`build_type=workflow`）返回 403 `Resource not accessible by integration`，App 权限列表没有 Pages。代码推送后需在 `https://github.com/chenrui6662025-cyber/duo-pocket-lab/settings/pages` 手动将 Source 设为 GitHub Actions。
+- 目前 Actions 运行列表为空；预期站点仍返回 HTTP 404，没有完成线上功能与离线缓存验收。先前本地测试结果继续保留在下方，不冒充线上测试。
+
+下面是首次交付时的历史验证记录。
+
 ## GitHub 与网络检查
 
 | 检查 | 实测结果 |

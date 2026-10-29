@@ -2,7 +2,7 @@
 
 一个独立、无后端的口袋工具箱 PWA，适配 iPhone Safari 与主屏幕 Web App。
 
-**交付状态：应用已在云端独立目录完成；GitHub 仓库尚未创建，Pages 尚未部署。** 当前 GitHub 身份为 `chenrui6662025-cyber`，实际创建仓库请求返回 HTTP 403 `Resource not accessible by integration`。预计站点路径是 `https://chenrui6662025-cyber.github.io/duo-pocket-lab/`，此地址目前不是已上线站点。详见 [验证记录](VERIFICATION.md)。
+**交付状态：应用已完成并通过测试；用户已手动创建 Public 仓库，但当前 GitHub App 尚未获授这个新仓库的访问权限，实际推送返回 HTTP 403。Pages 尚未部署。** 预计站点路径是 `https://chenrui6662025-cyber.github.io/duo-pocket-lab/`，此地址目前返回 404，不是已上线站点。详见 [验证记录](VERIFICATION.md)。
 
 ## 功能
 
@@ -46,23 +46,26 @@ npm run test:e2e
 
 ## GitHub 权限与部署
 
-当前连接能读取身份，但创建仓库请求被拒绝。需要通过 GitHub 官方网页/授权流程，重新授权能够创建个人 Public 仓库的连接，或手动创建 `chenrui6662025-cyber/duo-pocket-lab` 并将其加入当前 GitHub 连接的可访问仓库范围。
+用户已手动创建 `chenrui6662025-cyber/duo-pocket-lab`，不需要重新建仓。当前身份可以读取这个 Public 仓库，但实际 `git push` 返回 HTTP 403。`GET /user/installations/129148100/repositories` 确认该仓库不在当前 App 的授权列表中。
 
-推送和配置需要目标仓库的 Contents 写、Workflows 写、Pages 写和 Administration 写权限；查看或触发工作流还需要相应 Actions 访问能力。具体可授予权限受 GitHub App 本身支持范围约束。若 App 不提供创建仓库或 Pages 管理权限，可以在 GitHub 网页完成这两项操作。**不要把明文令牌写入文件、聊天或提交记录。**
+打开 [GitHub App 安装配置](https://github.com/settings/installations/129148100)，在 **Repository access → Only select repositories** 中加入 `duo-pocket-lab`，保留原有仓库选择并保存。当前 App 是 `chatgpt-codex-connector`，已获 Contents、Workflows、Actions 写权限；新仓库必须加入访问范围后才能实际使用这些权限。
 
-在具备授权的 GitHub CLI 环境中，若远程仓库尚不存在，可从本项目目录运行：
+这个 App 的权限列表中没有 Pages 管理权限，创建 Pages 的实际请求也返回 403；不应假设安装配置界面能自行增加 App 未申请的权限。代码推送后，在 [仓库 Pages 设置](https://github.com/chenrui6662025-cyber/duo-pocket-lab/settings/pages) 的 **Build and deployment → Source** 中选择 **GitHub Actions**。**不要把明文令牌写入文件、聊天或提交记录。**
+
+在仓库授权完成后，从已有的本地项目目录运行：
 
 若使用下载的交付 ZIP，它不包含 `.git`；先执行 `git init -b main`、`git add .` 和 `git commit -m "Initialize Duo Pocket Lab PWA"`，再执行下面的命令。本次云端工作目录已完成本地 Git 初始化与提交，无需重复。
 
 ```sh
-# 本地初始提交中已包含 README；该命令创建独立 Public 仓库并推送。
-gh repo create chenrui6662025-cyber/duo-pocket-lab \
-  --public --source=. --remote=origin --push \
-  --description 'An offline-first pocket toolkit PWA for iPhone.'
+# 当前云端工作目录已设置 origin；下载源码包的情况先添加此远程地址。
+git remote -v
+# git remote add origin https://github.com/chenrui6662025-cyber/duo-pocket-lab.git
+git fetch origin
+# 检查远程分支是否存在及其内容；当前首次检查为空仓库。
+# 若远程后来已有提交，应先整合；不要强制推送覆盖用户修改。
+git push -u origin main
 
-# 仅针对这个独立仓库，将 Pages 的发布源设为 GitHub Actions。
-gh api --method POST repos/chenrui6662025-cyber/duo-pocket-lab/pages \
-  -f build_type=workflow
+# 接着在 GitHub 网页的 Settings → Pages 中选择 GitHub Actions。
 
 # 如果初次 push 的运行早于 Pages 启用，再触发一次部署。
 gh workflow run deploy.yml --repo chenrui6662025-cyber/duo-pocket-lab --ref main

@@ -2,6 +2,25 @@
 
 最近检查日期：2026-10-30（UTC）。项目目录：`/workspace/duo-pocket-lab`。
 
+## 最终上线验证：成功
+
+- 正式网址：**https://chenrui6662025-cyber.github.io/duo-pocket-lab/**，实际 HTTPS GET 返回 200；HTTPS 已强制启用。
+- 用户在仓库设置中将 Pages Source 设为 GitHub Actions 后，读取到 `build_type=workflow` 与正确的 `html_url`。
+- [工作流 41007197251](https://github.com/chenrui6662025-cyber/duo-pocket-lab/actions/runs/41007197251) 的第二次尝试已完成，结论为 **success**；Configure Pages 和 Deploy to GitHub Pages 均成功。只重跑失败的部署任务，沿用第一次运行通过的测试、构建和 artifact。
+- 云端构建验证：11 项模型测试、27 项 Chromium/WebKit 浏览器测试全部通过；构建缓存版本为 `b1e17a65f3d206c3`，正式站点的 `sw.js` 中版本完全一致。
+- 仓库脚本 `npm run verify:live` 已对正式站点成功运行，核验 Public 仓库、成功工作流、Pages Actions 配置、HTTPS HTML、Manifest 和离线资源。
+- 在一个全新、独立的 Chromium 浏览器上下文中，以 iPhone 13 的尺寸和触屏配置访问正式站点，完成以下线上交互核验，所有断言通过且没有未捕获 JavaScript 错误：
+  - 首页返回 200，Service Worker 实际控制 `https://chenrui6662025-cyber.github.io/duo-pocket-lab/` 范围，页面显示“离线已就绪”。
+  - Manifest 为 standalone，start_url/scope 为相对 `./`；JS、CSS、Service Worker、180/192/512/maskable PNG 图标均实际返回 200。
+  - 计数器加一、减一，刷新后保留计数。
+  - 骰子点数与实际可见骰点一致；刷新后保留结果与历史。
+  - 计时器启动、暂停、继续、刷新恢复、完成后只累计一次；时长推进采用 Playwright 受控浏览器时钟进行验证。
+  - 浏览器断网后重新加载正式 URL，页面显示“离线使用中”，计数、骰子、计时器三个工具仍然可以操作。
+- 本次恢复部署未改动任何应用源代码，最终文档以 `[skip ci]` 提交记录结果，不触发与应用产物无关的重复测试。自动部署工作流保留正常 `main` 代码推送触发行为。
+- 尚未替用户进行真实 iPhone 硬件上的主屏幕安装操作；安装方法见 README。iOS 锁屏后台无法保证响铃的限制仍然适用。
+
+下文保留此前的权限和 Pages 未启用问题作为历史记录；这些阻碍现已解除，不能将历史 403/404 当作当前部署状态。
+
 ## 仓库授权保存后的检查
 
 - 用户保存仓库授权后，安装 `129148100` 的仓库列表已包含 `duo-pocket-lab`。

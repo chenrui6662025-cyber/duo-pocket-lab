@@ -2,7 +2,7 @@
 
 一个独立、无后端的口袋工具箱 PWA，适配 iPhone Safari 与主屏幕 Web App。
 
-**交付状态：完整源码、PWA 配置及工作流已推送到 Public 仓库；GitHub Actions 的测试与构建全部通过，发布产物已上传。仓库尚未启用 Pages，部署在 Configure Pages 步骤失败。** 预计站点路径是 `https://chenrui6662025-cyber.github.io/duo-pocket-lab/`，此地址目前返回 404，不是已上线站点。详见 [验证记录](VERIFICATION.md)。
+**已上线：[在 Safari 打开 Duo Pocket Lab](https://chenrui6662025-cyber.github.io/duo-pocket-lab/)。** GitHub Actions 的测试、构建和 Pages 部署已成功；正式 HTTPS 页面、资源路径、三个工具、本地保存及断网刷新均已通过线上浏览器核验。详见 [验证记录](VERIFICATION.md) 和 [成功的部署工作流](https://github.com/chenrui6662025-cyber/duo-pocket-lab/actions/runs/41007197251)。
 
 ## 功能
 
@@ -50,7 +50,7 @@ npm run test:e2e
 
 当前 App 是 `chatgpt-codex-connector`，已获 Contents、Workflows、Actions 写权限。GitHub Actions 已实际运行并通过 11 项单元测试、27 项浏览器测试及构建，Pages artifact 已上传。
 
-这个 App 的权限列表中没有 Pages 管理权限，创建 Pages 的实际请求也返回 403；不应假设安装配置界面能自行增加 App 未申请的权限。代码推送后，在 [仓库 Pages 设置](https://github.com/chenrui6662025-cyber/duo-pocket-lab/settings/pages) 的 **Build and deployment → Source** 中选择 **GitHub Actions**。**不要把明文令牌写入文件、聊天或提交记录。**
+这个 App 的权限列表中没有 Pages 管理权限，初次启用由用户在 [仓库 Pages 设置](https://github.com/chenrui6662025-cyber/duo-pocket-lab/settings/pages) 的 **Build and deployment → Source** 中选择 **GitHub Actions** 完成。随后只重跑了失败的部署任务，复用同一份已通过测试的产物并成功发布；后续代码推送将自动测试和部署，无需重复启用 Pages。**不要把明文令牌写入文件、聊天或提交记录。**
 
 在仓库授权完成后，从已有的本地项目目录运行：
 
@@ -65,9 +65,9 @@ git fetch origin
 # 若远程后来已有提交，应先整合；不要强制推送覆盖用户修改。
 git push -u origin main
 
-# 接着在 GitHub 网页的 Settings → Pages 中选择 GitHub Actions。
+# 此仓库已启用 Pages，后续正常推送会自动触发部署。
 
-# 如果初次 push 的运行早于 Pages 启用，再触发一次部署。
+# 需要手动发起完整测试和部署时：
 gh workflow run deploy.yml --repo chenrui6662025-cyber/duo-pocket-lab --ref main
 gh run list --repo chenrui6662025-cyber/duo-pocket-lab --limit 5
 ```
@@ -87,9 +87,9 @@ npm run verify:live
 
 ## 在 iPhone Duo 上安装
 
-以下步骤仅在站点成功部署后适用：
+站点已部署，可按以下步骤安装：
 
-1. 用 **Safari** 打开部署完成的 HTTPS 网址。
+1. 用 **Safari** 打开 **https://chenrui6662025-cyber.github.io/duo-pocket-lab/**。
 2. 等待页面显示 **“离线已就绪”**。
 3. 轻点 Safari 的**分享**按钮，选择**“添加到主屏幕”**；若出现**“作为网页 App 打开”**，将它开启。
 4. 确认名称并轻点**“添加”**。从主屏幕图标重新打开一次，联网等待离线缓存准备好。

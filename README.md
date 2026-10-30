@@ -2,7 +2,7 @@
 
 一个独立、无后端的口袋工具箱 PWA，适配 iPhone Safari 与主屏幕 Web App。
 
-**交付状态：应用已完成并通过测试；用户已手动创建 Public 仓库，但当前 GitHub App 尚未获授这个新仓库的访问权限，实际推送返回 HTTP 403。Pages 尚未部署。** 预计站点路径是 `https://chenrui6662025-cyber.github.io/duo-pocket-lab/`，此地址目前返回 404，不是已上线站点。详见 [验证记录](VERIFICATION.md)。
+**交付状态：完整源码、PWA 配置及工作流已推送到 Public 仓库；GitHub Actions 的测试与构建全部通过，发布产物已上传。仓库尚未启用 Pages，部署在 Configure Pages 步骤失败。** 预计站点路径是 `https://chenrui6662025-cyber.github.io/duo-pocket-lab/`，此地址目前返回 404，不是已上线站点。详见 [验证记录](VERIFICATION.md)。
 
 ## 功能
 
@@ -46,9 +46,9 @@ npm run test:e2e
 
 ## GitHub 权限与部署
 
-用户已手动创建 `chenrui6662025-cyber/duo-pocket-lab`，不需要重新建仓。当前身份可以读取这个 Public 仓库，但实际 `git push` 返回 HTTP 403。`GET /user/installations/129148100/repositories` 确认该仓库不在当前 App 的授权列表中。
+用户已手动创建 `chenrui6662025-cyber/duo-pocket-lab` 并将其加入 App 授权列表；实际 `git push` 已成功，不需要重新建仓或重复授权代码访问。
 
-打开 [GitHub App 安装配置](https://github.com/settings/installations/129148100)，在 **Repository access → Only select repositories** 中加入 `duo-pocket-lab`，保留原有仓库选择并保存。当前 App 是 `chatgpt-codex-connector`，已获 Contents、Workflows、Actions 写权限；新仓库必须加入访问范围后才能实际使用这些权限。
+当前 App 是 `chatgpt-codex-connector`，已获 Contents、Workflows、Actions 写权限。GitHub Actions 已实际运行并通过 11 项单元测试、27 项浏览器测试及构建，Pages artifact 已上传。
 
 这个 App 的权限列表中没有 Pages 管理权限，创建 Pages 的实际请求也返回 403；不应假设安装配置界面能自行增加 App 未申请的权限。代码推送后，在 [仓库 Pages 设置](https://github.com/chenrui6662025-cyber/duo-pocket-lab/settings/pages) 的 **Build and deployment → Source** 中选择 **GitHub Actions**。**不要把明文令牌写入文件、聊天或提交记录。**
 

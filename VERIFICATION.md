@@ -1,6 +1,15 @@
 # 交付验证记录
 
-日期：2026-10-29（UTC）。项目目录：`/workspace/duo-pocket-lab`。
+最近检查日期：2026-10-30（UTC）。项目目录：`/workspace/duo-pocket-lab`。
+
+## 仓库授权保存后的检查
+
+- 用户保存仓库授权后，安装 `129148100` 的仓库列表已包含 `duo-pocket-lab`。
+- 实际 `git push -u origin main` 成功，完整源码、PWA 配置、README 与 `.github/workflows/deploy.yml` 已写入 Public 仓库。业务代码沿用已通过测试的原始提交，没有重新开发。
+- 工作流运行：[41007197251](https://github.com/chenrui6662025-cyber/duo-pocket-lab/actions/runs/41007197251)。`test-build` 成功，涵盖 npm ci、11 项模型测试、静态构建、27 项 Chromium/WebKit 浏览器测试和 Pages artifact 上传。
+- `deploy` 在 Configure Pages 步骤失败：仓库的 Pages 尚未启用。读取 Pages 返回 404，尝试创建 Pages 返回 403 `Resource not accessible by integration`。App 授权列表中没有 Pages 管理权限。
+- 按 Browser 技能检查后，本会话没有可用的浏览器控制工具，无法代替用户在 GitHub 网页中点选设置。需要在 [Pages 设置](https://github.com/chenrui6662025-cyber/duo-pocket-lab/settings/pages) 把 Build and deployment → Source 设为 GitHub Actions。
+- 预计站点在独立 Chromium 浏览器中实测 HTTP 404，标题为 Site not found · GitHub Pages。因此尚未宣称上线或完成线上功能验收；设置生效后可只重跑失败的 deploy 任务，复用通过测试的同一发布产物。
 
 ## 用户手动创建仓库后的继续检查
 
